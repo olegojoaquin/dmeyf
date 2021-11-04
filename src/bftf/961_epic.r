@@ -63,19 +63,24 @@ kgen_mes_hasta    <- 202011   #La generacion final para Kaggle, sin undersamplin
 kgen_mes_desde    <- 201901
 
 
-kBO_iter    <-  100   #cantidad de iteraciones de la Optimizacion Bayesiana
+kBO_iter    <-  150   #cantidad de iteraciones de la Optimizacion Bayesiana
 
 #Aqui se cargan los hiperparametros
 hs <- makeParamSet( 
-         makeNumericParam("learning_rate",    lower=    0.02 , upper=    0.1),
-         makeNumericParam("feature_fraction", lower=    0.1  , upper=    1.0),
-         makeIntegerParam("min_data_in_leaf", lower=  200L   , upper= 8000L),
-         makeIntegerParam("num_leaves",       lower=  100L   , upper= 1024L)
-        )
+  makeNumericParam("learning_rate",    lower= 0.01 , upper=    0.1),
+  makeNumericParam("feature_fraction", lower= 0.2  , upper=    1.0),
+  makeIntegerParam("min_data_in_leaf", lower= 0    , upper= 8000),
+  makeIntegerParam("num_leaves",       lower=16L   , upper= 1024L),
+  makeNumericParam("prob_corte",       lower= 0.020, upper=    0.055),
+  makeNumericParam("min_gain_to_split",       lower= 0.003, upper=    1.05),
+  makeNumericParam("lambda_l1",       lower= 0.001, upper=    1.0),
+  makeNumericParam("lambda_l2",       lower= 0.001, upper=    1.0),
+  makeNumericParam("max_bin",       lower= 2, upper=    200)
+)
 
 campos_malos  <- c()   #aqui se deben cargar todos los campos culpables del Data Drifting
 
-ksemilla_azar  <- 102191  #Aqui poner la propia semilla
+ksemilla_azar  <- 42  #Aqui poner la propia semilla
 #------------------------------------------------------------------------------
 #Funcion que lleva el registro de los experimentos
 
