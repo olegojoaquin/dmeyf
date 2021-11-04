@@ -52,7 +52,7 @@ kapply_mes       <- c(202101)  #El mes donde debo aplicar el modelo
 ktest_mes_hasta  <- 202011  #Esto es lo que uso para testing
 ktest_mes_desde  <- 202011
 
-ktrain_subsampling  <- 0.1   #el undersampling que voy a hacer de los continua
+ktrain_subsampling  <- 0.2   #el undersampling que voy a hacer de los continua
 
 ktrain_mes_hasta    <- 202010  #Obviamente, solo puedo entrenar hasta 202011
 ktrain_mes_desde    <- 201901
@@ -71,7 +71,6 @@ hs <- makeParamSet(
   makeNumericParam("feature_fraction", lower= 0.2  , upper=    1.0),
   makeIntegerParam("min_data_in_leaf", lower= 0    , upper= 8000),
   makeIntegerParam("num_leaves",       lower=16L   , upper= 1024L),
-  makeNumericParam("prob_corte",       lower= 0.020, upper=    0.055),
   makeNumericParam("min_gain_to_split",       lower= 0.003, upper=    1.05),
   makeNumericParam("lambda_l1",       lower= 0.001, upper=    1.0),
   makeNumericParam("lambda_l2",       lower= 0.001, upper=    1.0),

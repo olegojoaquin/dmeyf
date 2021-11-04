@@ -31,7 +31,7 @@ kgen_mes_hasta   <- 202011  #hasta donde voy a entrenar
 kgen_mes_desde   <- 201901  #desde donde voy a entrenar
 kgen_meses_malos <- 202006  #el mes que voy a eliminar del entreanamiento
 
-kgen_subsampling <- 1.0     #esto es NO hacer undersampling
+kgen_subsampling <- 0.8     #esto es NO hacer undersampling
 
 campos_malos  <- c()   #aqui se deben cargar todos los campos culpables del Data Drifting
 
@@ -108,23 +108,25 @@ param_basicos  <- list( objective= "binary",
                         boost_from_average= TRUE,
                         feature_pre_filter= FALSE,
                         max_depth=  -1,         # -1 significa no limitar,  por ahora lo dejo fijo
-                        min_gain_to_split= 0.0, #por ahora, lo dejo fijo
-                        lambda_l1= 0.0,         #por ahora, lo dejo fijo
-                        lambda_l2= 0.0,         #por ahora, lo dejo fijo
-                        max_bin= 31,            #por ahora, lo dejo fijo
+                        min_gain_to_split= 0.713565, #por ahora, lo dejo fijo
+                        lambda_l1= 0.1200903,         #por ahora, lo dejo fijo
+                        lambda_l2= 0.913315,         #por ahora, lo dejo fijo
+                        max_bin= 196.306,            #por ahora, lo dejo fijo
                         force_row_wise= TRUE    #para que los alumnos no se atemoricen con tantos warning
+
+                        
                        )
 
 
 #Estos hiperparametros salieron de la optimizacion bayesiana del script 961
 #ganancia  7272500  ( sobre la mitad de 202011 )
 #hiperparametros encontrados en la iteracion bayesiana 56 de un total de 100 inteligentes
-param_ganadores  <- list( "learning_rate"= 0.0689581204, 
-                          "feature_fraction"= 0.4820239822,
-                          "min_data_in_leaf"= 1379,
-                          "num_leaves"= 119,
-                          "num_iterations"= 173,
-                          "ratio_corte"= 0.0461216724
+param_ganadores  <- list(                         "num_iterations" = 365,
+                                                  "learning_rate" = 0.03358685,
+                                                  "feature_fraction" = 0.4110486,
+                                                  "min_data_in_leaf"= 1733,
+                                                  "num_leaves" = 851,
+                                                  "ratio_corte" = 0.04069276
                         )
 
 #junto ambas listas de parametros en una sola
