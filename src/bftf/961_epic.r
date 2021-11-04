@@ -77,7 +77,11 @@ hs <- makeParamSet(
   makeNumericParam("max_bin",       lower= 2, upper=    200)
 )
 
-campos_malos  <- c()   #aqui se deben cargar todos los campos culpables del Data Drifting
+impo <- fread('work/impo.txt')
+buenas <- impo[impo$Gain >0.001,]$Feature
+malas <-impo[!impo$Feature %in% buenas,]$Feature
+
+campos_malos  <- c(malas)   #aqui se deben cargar todos los campos culpables del Data Drifting
 
 ksemilla_azar  <- 42  #Aqui poner la propia semilla
 #------------------------------------------------------------------------------
