@@ -46,7 +46,7 @@ kexperimento  <- NA   #NA si se corre la primera vez, un valor concreto si es pa
 kscript         <- "962_epic"
 
 impo <- fread("./work/impo_20211109.txt")
-buenas <- impo[impo$Gain >0.001,]$Feature
+#buenas <- impo[impo$Gain >0.001,]$Feature
 buenas <- impo[1:grep("canarito",impo$Feature)[1],]$Feature
 malas <-impo[!impo$Feature %in% buenas,]$Feature
 
@@ -81,11 +81,10 @@ hs <- makeParamSet(
   makeNumericParam("lambda_l1",       lower= 0.001, upper=    1.0),
   makeNumericParam("lambda_l2",       lower= 0.001, upper=    1.0),
   makeNumericParam("max_bin",       lower= 2, upper=    200),
-  makeIntegerParam("max_depth",lower = 1L,upper = 10L),
-  makeDiscreteParam("eta",      lower= 0.001, upper=    1.0)
+  makeIntegerParam("max_depth",lower = 1L,upper = 10L)
         )
 
-campos_malos  <- c()   #aqui se deben cargar todos los campos culpables del Data Drifting
+campos_malos  <- malas   #aqui se deben cargar todos los campos culpables del Data Drifting
 
 ksemilla_azar  <- 87546598  #Aqui poner la propia semilla
 #------------------------------------------------------------------------------
@@ -501,7 +500,7 @@ if(!file.exists(kbayesiana)) {
 
 
 #apagado de la maquina virtual, pero NO se borra
-system( "sleep 10  &&  sudo shutdown -h now", wait=FALSE)
+#system( "sleep 10  &&  sudo shutdown -h now", wait=FALSE)
 
 #suicidio,  elimina la maquina virtual directamente
 #system( "sleep 10  && 
@@ -511,6 +510,6 @@ system( "sleep 10  &&  sudo shutdown -h now", wait=FALSE)
 #        wait=FALSE )
 
 
-quit( save="no" )
+#quit( save="no" )
 
 
