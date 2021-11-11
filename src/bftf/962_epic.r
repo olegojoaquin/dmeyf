@@ -45,7 +45,13 @@ kexperimento  <- NA   #NA si se corre la primera vez, un valor concreto si es pa
 
 kscript         <- "962_epic"
 
-karch_dataset    <- "./datasets/dataset_epic_v952.csv.gz"
+impo <- fread("./work/impo_20211109.txt")
+#buenas <- impo[impo$Gain >0.001,]$Feature
+buenas <- impo[1:grep("canarito",impo$Feature)[1],]$Feature
+malas <-impo[!impo$Feature %in% buenas,]$Feature
+
+
+karch_dataset    <- "./datasets/dataset_epic_v20211109.csv.gz"
 
 kapply_mes       <- c(202101)  #El mes donde debo aplicar el modelo
 
@@ -63,19 +69,24 @@ kgen_mes_hasta    <- 202011   #La generacion final para Kaggle, sin undersamplin
 kgen_mes_desde    <- 201901
 
 
-kBO_iter    <-  100   #cantidad de iteraciones de la Optimizacion Bayesiana
+kBO_iter    <-  150   #cantidad de iteraciones de la Optimizacion Bayesiana
 
 #Aqui se cargan los hiperparametros
 hs <- makeParamSet( 
-         makeNumericParam("learning_rate",    lower=    0.02 , upper=    0.1),
-         makeNumericParam("feature_fraction", lower=    0.1  , upper=    1.0),
-         makeIntegerParam("min_data_in_leaf", lower=  200L   , upper= 8000L),
-         makeIntegerParam("num_leaves",       lower=  100L   , upper= 1024L)
+  makeNumericParam("learning_rate",    lower= 0.01 , upper=    0.1),
+  makeNumericParam("feature_fraction", lower= 0.2  , upper=    1.0),
+  makeIntegerParam("min_data_in_leaf", lower= 0    , upper= 8000),
+  makeIntegerParam("num_leaves",       lower=16L   , upper= 1024L),
+  makeNumericParam("min_gain_to_split",       lower= 0.003, upper=    1.05),
+  makeNumericParam("lambda_l1",       lower= 0.001, upper=    1.0),
+  makeNumericParam("lambda_l2",       lower= 0.001, upper=    1.0),
+  makeNumericParam("max_bin",       lower= 2, upper=    200),
+  makeIntegerParam("max_depth",lower = 1L,upper = 10L)
         )
 
-campos_malos  <- c()   #aqui se deben cargar todos los campos culpables del Data Drifting
+campos_malos  <- malas   #aqui se deben cargar todos los campos culpables del Data Drifting
 
-ksemilla_azar  <- 102191  #Aqui poner la propia semilla
+ksemilla_azar  <- 87546598  #Aqui poner la propia semilla
 #------------------------------------------------------------------------------
 #Funcion que lleva el registro de los experimentos
 
@@ -489,7 +500,7 @@ if(!file.exists(kbayesiana)) {
 
 
 #apagado de la maquina virtual, pero NO se borra
-system( "sleep 10  &&  sudo shutdown -h now", wait=FALSE)
+#system( "sleep 10  &&  sudo shutdown -h now", wait=FALSE)
 
 #suicidio,  elimina la maquina virtual directamente
 #system( "sleep 10  && 
@@ -499,6 +510,6 @@ system( "sleep 10  &&  sudo shutdown -h now", wait=FALSE)
 #        wait=FALSE )
 
 
-quit( save="no" )
+#quit( save="no" )
 
 
